@@ -17,7 +17,7 @@ Implementation of Enigma Machine
 3. Plugboard: 26! / (6! * 10! * 2^10) = 150,738,274,237,937,250.
 4. Total: 158,962,555,217,826,360,000.
 
-Means that there are more then 158 quintillion ways to set up the Enigma Machine!
+Means that there are more then **158 Quintillion** ways to set up the Enigma Machine!
 
 ## Sources
 * [Enigma Machine](https://en.wikipedia.org/wiki/Enigma_machine)
