@@ -1,5 +1,5 @@
 # Enigma-Machine
-The Enigma machine is a famous encryption device used by the Germans, most notably during World War II, for securing military communications. The machine resembles a typewriter and operates by inputting letters through a keyboard, which are then encrypted based on the configuration of several rotors and a plugboard before being output as a different letter.<br\>
+The Enigma machine is a famous encryption device used by the Germans, most notably during World War II, for securing military communications. The machine resembles a typewriter and operates by inputting letters through a keyboard, which are then encrypted based on the configuration of several rotors and a plugboard before being output as a different letter.<br/>
 This setup allowed for a vast number of possible settings, making the Enigma's encryption extremely difficult to break.
 ## Overview
 
