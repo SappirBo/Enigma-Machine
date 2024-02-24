@@ -1,47 +1,79 @@
 #include <iostream>
+#include <string>
 #include "include/Rotor.hpp"
 #include "include/Reflector.hpp"
 
 
 
+// Function 1: Convert uppercase letter or space to lowercase
+char toLowercase(char c) {
+    // Check if the character is an uppercase letter
+    if (c >= 'A' && c <= 'Z') {
+        return c - 'A' + 'a'; // Convert to lowercase
+    } else if (c == ' ') {
+        return c; // Return space unchanged
+    } else {
+        // Invalid input, return the input character itself
+        // Or handle the error as needed
+        return c;
+    }
+}
+
+// Function 2: Convert lowercase letter to its alphabetical index (0-25)
+int letterToIndex(char c) {
+    if (c >= 'a' && c <= 'z') {
+        return c - 'a'; // Get index (0-25)
+    } else {
+        // Invalid input, return -1 or handle the error as needed
+        return -1;
+    }
+}
+
+// Function to convert a number (0-25) to its corresponding lowercase letter
+char indexToLetter(int index) {
+    if (index >= 0 && index <= 25) {
+        return 'a' + index; // Convert index to lowercase letter
+    } else {
+        // Invalid input, return an error character or handle the error as needed
+        return '?'; // Example error character
+    }
+}
+
+
+
+
+void loop()
+{
+
+}
+
 int main(int argc, char const *argv[])
 {
     Rotor r(2,12,0);
-    int32_t output{0};
-
-    std::cout << "- - - 0 Turns: - - -" << std::endl;
-    output = r.step(0);
-    std::cout << r << std::endl;
-    std::cout << "Step Output: " << output << "\n";
-
-    std::cout << "- - - 1 Turns: (last + 1)- - -" << std::endl;
-    output = r.step(1);
-    std::cout << r << std::endl;
-    std::cout << "Step Output: " << output << "\n";
-
-    std::cout << "- - - 6 Turns: (last + 5)- - -" << std::endl;
-    output = r.step(5);
-    std::cout << r << std::endl;
-    std::cout << "Step Output: " << output << "\n";
-
-    std::cout << "- - - 26 Turns: (last + 20)- - -" << std::endl;
-    output = r.step(20);
-    std::cout << r << std::endl;
-    std::cout << "Step Output: " << output << "\n";
-
-
     Reflector ref;
 
-    std::cout << ref;
-
-    for(int i=0; i < 26; i++)
+    std::string str = "pxiafc";
+    std::string ans = "";
+    
+    for(int i=0; i < str.size(); ++i)
     {
-        std::cout << "TEST " << i <<"\n";
-        int num = ref.reflect(i);
-        std::cout << "ref.at("<<i<<") = "<< num<<"\n";
-        std::cout << "ref.at("<<num<<") = "<< ref.reflect(num)<<"\n";
+        char c = str.at(i);
+        char c_small = toLowercase(c);
+        int index = letterToIndex(c_small);
 
-        std::cout << std::endl;
+        // std::cout << "Letter: " << c << ", Index:" << index << std::endl;
+
+        int32_t a = r.permute(index,false);
+        a = ref.reflect(a);
+        a = r.permute(a,true);
+        ans += indexToLetter(a);
+
+        r.step(1);
+
+        // std::cout << "Letter: " << indexToLetter(a) << ", Index:" << a << std::endl;
     }
+
+    std::cout << "ANDWER: " << ans << std::endl;
+    
     return 0;
 }
