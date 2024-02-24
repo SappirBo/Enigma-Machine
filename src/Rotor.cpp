@@ -82,9 +82,8 @@ int32_t Rotor::permute(int32_t input, bool in_out)
     return output; 
 }
 
-
-
-int32_t Rotor::getIndex(int32_t input, const std::vector<int32_t> vec){
+int32_t Rotor::getIndex(int32_t input, const std::vector<int32_t> vec)
+{
     int32_t index = -1;
     for(int32_t i=0; i < vec.size(); ++i){
         if(vec.at(i) == input){

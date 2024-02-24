@@ -2,6 +2,7 @@
 #include <string>
 #include "include/Rotor.hpp"
 #include "include/Reflector.hpp"
+#include "include/Plugboard.hpp"
 
 
 
@@ -40,40 +41,49 @@ char indexToLetter(int index) {
 }
 
 
-
-
-void loop()
-{
-
-}
-
 int main(int argc, char const *argv[])
 {
+
+
     Rotor r(2,12,0);
     Reflector ref;
+    Plugboard pb{2};
 
-    std::string str = "pxiafc";
+    std::string str = "qxtxos luk xwvhjt ozsv";
     std::string ans = "";
     
+    std::cout << "Hello, Lets Play a game ...\n";
+    std::cout << "Input: " << str << "\n";
+
     for(int i=0; i < str.size(); ++i)
     {
         char c = str.at(i);
-        char c_small = toLowercase(c);
-        int index = letterToIndex(c_small);
+        if(c == ' ')
+        {
+            ans += " ";
+        }
+        else
+        {
+            char c_small = toLowercase(c);
+            int index = letterToIndex(c_small);
 
-        // std::cout << "Letter: " << c << ", Index:" << index << std::endl;
+            // std::cout << "Letter: " << c << ", Index:" << index << std::endl;
 
-        int32_t a = r.permute(index,false);
-        a = ref.reflect(a);
-        a = r.permute(a,true);
-        ans += indexToLetter(a);
+            int32_t a = r.permute(index,false);
+            a = ref.reflect(a);
+            a = r.permute(a,true);
+            ans += indexToLetter(a);
 
-        r.step(1);
+            r.step(1);
+        }
+        
 
         // std::cout << "Letter: " << indexToLetter(a) << ", Index:" << a << std::endl;
     }
 
-    std::cout << "ANDWER: " << ans << std::endl;
+    std::cout << "Encoded: " << ans << std::endl;
+
+    // std::cout << pb << std::endl;
     
     return 0;
 }

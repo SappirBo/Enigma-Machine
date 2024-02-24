@@ -27,3 +27,4 @@ std::ostream& operator<< (std::ostream& out, const Reflector& obj)
     return out;
 
 }
+
