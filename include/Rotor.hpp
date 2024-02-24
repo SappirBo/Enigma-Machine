@@ -24,11 +24,19 @@ public:
      * output: the current input.at(0) => start point
     */
     int32_t step(int32_t turns);
+
+    /**
+     * taking input in - return its permute. 
+     * if False - from input ring to rotor ring
+     * if True  - from rotor ring to input ring  
+    */
+    int32_t permute(int32_t input, bool in_out);
     
     friend std::ostream& operator<< (std::ostream& out, const Rotor& obj); 
 
 private:
     int32_t oneStep();
+    int32_t getIndex(int32_t intput, const std::vector<int32_t> vec);
 };
 
 
