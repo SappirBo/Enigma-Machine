@@ -10,16 +10,15 @@ CXXFLAGS = -I include
 TARGET = Enigma
 
 # Object files that the project depends on
-# Added src/Plugboard.o to the list of object files
-OBJ = main.o src/Rotor.o src/RotorData.o src/Reflector.o src/Plugboard.o
+OBJ = main.o src/Rotor.o src/RotorData.o src/Reflector.o src/Plugboard.o src/Enigma.o
 
 # Rule for making the final executable
 $(TARGET): $(OBJ)
 	$(CXX) -o $(TARGET) $(OBJ)
 
 # Rule for compiling the main program file
-# Updated to include dependency on Plugboard.hpp
-main.o: main.cpp include/Rotor.hpp include/Reflector.hpp include/Plugboard.hpp
+# Updated to include dependency on Keywords.hpp and Rotor.hpp
+main.o: main.cpp include/Rotor.hpp include/Keywords.hpp include/Enigma.hpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
 # Rule for compiling the Rotor class
@@ -34,9 +33,13 @@ src/RotorData.o: src/RotorData.cpp include/RotorData.hpp
 src/Reflector.o: src/Reflector.cpp include/Reflector.hpp
 	$(CXX) $(CXXFLAGS) -c src/Reflector.cpp -o src/Reflector.o
 
-# New rule for compiling the Plugboard class
+# Rule for compiling the Plugboard class
 src/Plugboard.o: src/Plugboard.cpp include/Plugboard.hpp
 	$(CXX) $(CXXFLAGS) -c src/Plugboard.cpp -o src/Plugboard.o
+
+# Rule for compiling the Enigma class
+src/Enigma.o: src/Enigma.cpp include/Enigma.hpp include/Plugboard.hpp include/RotorData.hpp include/Reflector.hpp
+	$(CXX) $(CXXFLAGS) -c src/Enigma.cpp -o src/Enigma.o
 
 # Rule for cleaning up the project (removes object files and the executable)
 clean:

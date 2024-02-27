@@ -40,7 +40,7 @@ Plugboard::Plugboard(size_t code)
 
 }
 
-Plugboard::Plugboard(std::vector<int32_t> config)
+Plugboard::Plugboard(std::vector<uint32_t> config)
 {
     this->_plugVec = config;
 }
@@ -50,16 +50,16 @@ Plugboard::~Plugboard()
 
 }
 
-int32_t Plugboard::getPlug(int32_t input)
+uint32_t Plugboard::getPlug(uint32_t input)
 {
     return this->_plugVec.at(input);
 }
 
 std::ostream& operator<< (std::ostream& out, const Plugboard& obj)
 {
-    int32_t ring_size = obj._plugVec.size();
+    uint32_t ring_size = obj._plugVec.size();
     out << "Plugboard: {";
-    for(int32_t i=0; i < ring_size; ++i){
+    for(uint32_t i=0; i < ring_size; ++i){
         out << obj._plugVec.at(i);
         if(i != ring_size-1)
         {

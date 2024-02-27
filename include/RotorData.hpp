@@ -7,17 +7,17 @@
 class RotorData
 {
 private:
-    std::vector<int32_t> base;
-    std::vector<int32_t> r1;
-    std::vector<int32_t> r2;
-    std::vector<int32_t> r3;
-    std::vector<int32_t> r4;
-    std::vector<int32_t> r5;
+    std::vector<uint32_t> base;
+    std::vector<uint32_t> r1;
+    std::vector<uint32_t> r2;
+    std::vector<uint32_t> r3;
+    std::vector<uint32_t> r4;
+    std::vector<uint32_t> r5;
 public:
     RotorData();
     ~RotorData();
 
-    std::vector<int32_t> getRotorData (int32_t code);
+    std::vector<uint32_t> getRotorData (uint32_t code);
 };
 
 #endif
