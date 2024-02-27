@@ -7,15 +7,15 @@
 class Plugboard
 {
 private:
-    std::vector<int32_t> _plugVec;
+    std::vector<uint32_t> _plugVec;
 
 public:
     Plugboard();
     Plugboard(size_t code);
-    Plugboard(std::vector<int32_t> config);
+    Plugboard(std::vector<uint32_t> config);
     ~Plugboard();
     
-    int32_t getPlug(int32_t input);
+    uint32_t getPlug(uint32_t input);
 
     friend std::ostream& operator<< (std::ostream& out, const Plugboard& obj); 
 };

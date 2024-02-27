@@ -7,13 +7,13 @@
 class Reflector
 {
 private:
-    std::vector<int32_t> _reflectVector;
+    std::vector<uint32_t> _reflectVector;
 
 public:
     Reflector();
     ~Reflector();
     
-    int32_t reflect(int32_t input);
+    uint32_t reflect(uint32_t input);
 
     friend std::ostream& operator<< (std::ostream& out, const Reflector& obj); 
 };

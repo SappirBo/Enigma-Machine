@@ -1,5 +1,6 @@
 #include "../include/Rotor.hpp"
 #include "../include/RotorData.hpp"
+#include "Keywords.hpp"
 
 Rotor::Rotor()
 {
@@ -11,7 +12,7 @@ Rotor::Rotor()
     this->_current = 0;
 }
 
-Rotor::Rotor(int32_t rotorNum, int32_t startPoint, int32_t turn)
+Rotor::Rotor(uint32_t rotorNum, uint32_t startPoint, uint32_t turn)
 {
     this->_data = RotorData();
     this->_inputRing = this->_data.getRotorData(0);
@@ -25,9 +26,9 @@ Rotor::~Rotor()
 {
 }
 
-int32_t Rotor::step(int32_t turns)
+uint32_t Rotor::step(uint32_t turns) 
 {
-    int32_t ans(0);
+    uint32_t ans(0);
     while (turns > 0)
     {
         ans = this->oneStep();
@@ -36,17 +37,17 @@ int32_t Rotor::step(int32_t turns)
     return ans;
 }
 
-int32_t Rotor::oneStep()
+uint32_t Rotor::oneStep()
 {
-    int32_t lastElement = 25;
-    int32_t firstElement = 0;
+    uint32_t lastElement = 25;
+    uint32_t firstElement = 0;
 
-    int32_t turn = 0;
-    int32_t prevNum = 0;
-    int32_t newNum = 0;
+    uint32_t turn = 0;
+    uint32_t prevNum = 0;
+    uint32_t newNum = 0;
     newNum =  this->_inputRing.at(lastElement);
 
-    while(turn < 26)
+    while(turn < Keyword::OUT_OF_BOUND)
     {
         prevNum = this->_inputRing.at(turn);
         this->_inputRing.at(turn) = newNum;
@@ -57,9 +58,9 @@ int32_t Rotor::oneStep()
     return this->_inputRing.at(firstElement);
 }
 
-int32_t Rotor::permute(int32_t input, bool in_out)
+uint32_t Rotor::permute(uint32_t input, bool in_out)
 {
-    int32_t output = -1;
+    uint32_t output = Keyword::OUT_OF_BOUND;
 
     if(input > 25 || input < 0)
     {
@@ -71,7 +72,7 @@ int32_t Rotor::permute(int32_t input, bool in_out)
     // in_out = False :from input ring to rotor ring
     if(in_out == false)
     {
-        int32_t represent_in_input_ring = this->_inputRing.at(input);
+        uint32_t represent_in_input_ring = this->_inputRing.at(input);
         output = this->getIndex(represent_in_input_ring, this->_outputRotor);
     }
     else{
@@ -82,9 +83,9 @@ int32_t Rotor::permute(int32_t input, bool in_out)
     return output; 
 }
 
-int32_t Rotor::getIndex(int32_t input, const std::vector<int32_t> vec)
+uint32_t Rotor::getIndex(uint32_t input, const std::vector<uint32_t> vec)
 {
-    int32_t index = -1;
+    int32_t index = Keyword::OUT_OF_BOUND;
     for(int32_t i=0; i < vec.size(); ++i){
         if(vec.at(i) == input){
             index = i;

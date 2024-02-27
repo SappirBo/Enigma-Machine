@@ -5,38 +5,39 @@
 #include <vector>
 
 #include "RotorData.hpp"
+#include "Keywords.hpp"
 
 class Rotor
 {
 private:
-    std::vector<int32_t> _inputRing;
-    std::vector<int32_t> _outputRotor;
-    int32_t _current;
-    int32_t _ringTurn;
+    std::vector<uint32_t> _inputRing;
+    std::vector<uint32_t> _outputRotor;
+    uint32_t _current;
+    uint32_t _ringTurn;
     RotorData _data;
 public:
     Rotor();
-    Rotor(int32_t rotorNum, int32_t startPoint, int32_t turn);
+    Rotor(uint32_t rotorNum, uint32_t startPoint, uint32_t turn);
     ~Rotor();
 
     /**
      * Take the input rotor one step up
      * output: the current input.at(0) => start point
     */
-    int32_t step(int32_t turns);
+    uint32_t step(uint32_t turns);
 
     /**
      * taking input in - return its permute. 
      * if False - from input ring to rotor ring
      * if True  - from rotor ring to input ring  
     */
-    int32_t permute(int32_t input, bool in_out);
+    uint32_t permute(uint32_t input, bool in_out);
     
     friend std::ostream& operator<< (std::ostream& out, const Rotor& obj); 
 
 private:
-    int32_t oneStep();
-    int32_t getIndex(int32_t intput, const std::vector<int32_t> vec);
+    uint32_t oneStep();
+    uint32_t getIndex(uint32_t intput, const std::vector<uint32_t> vec);
 };
 
 

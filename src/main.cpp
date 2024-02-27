@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
-#include "include/Rotor.hpp"
-#include "include/Reflector.hpp"
-#include "include/Plugboard.hpp"
+#include "../include/Enigma.hpp"
 
 
 
@@ -43,47 +41,35 @@ char indexToLetter(int index) {
 
 int main(int argc, char const *argv[])
 {
+    Enigma em{1,2,3,0,0,0,10,0};
 
-
-    Rotor r(2,12,0);
-    Reflector ref;
-    Plugboard pb{2};
-
-    std::string str = "qxtxos luk xwvhjt ozsv";
+    std::string str = "kii ugczpmzdir";
     std::string ans = "";
     
-    std::cout << "Hello, Lets Play a game ...\n";
-    std::cout << "Input: " << str << "\n";
+    std::cout << "\nEnigma:\n";
+    std::cout << "Input  : " << str << "\n";
 
     for(int i=0; i < str.size(); ++i)
     {
         char c = str.at(i);
-        if(c == ' ')
+        if(c < 65 || c > 122)
         {
-            ans += " ";
+            ans += c;
+        }
+        else if(c >90 && c<97)
+        {
+            ans += c;
         }
         else
         {
             char c_small = toLowercase(c);
             int index = letterToIndex(c_small);
-
-            // std::cout << "Letter: " << c << ", Index:" << index << std::endl;
-
-            int32_t a = r.permute(index,false);
-            a = ref.reflect(a);
-            a = r.permute(a,true);
+            int32_t a = em.getPermute(index);
             ans += indexToLetter(a);
-
-            r.step(1);
         }
-        
-
-        // std::cout << "Letter: " << indexToLetter(a) << ", Index:" << a << std::endl;
     }
 
     std::cout << "Encoded: " << ans << std::endl;
-
-    // std::cout << pb << std::endl;
     
     return 0;
 }
