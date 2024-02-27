@@ -43,7 +43,7 @@ int main(int argc, char const *argv[])
 {
     Enigma em{1,2,3,0,0,0,10,0};
 
-    std::string str = "gtcuf nxiao";
+    std::string str = "kii ugczpmzdir";
     std::string ans = "";
     
     std::cout << "\nEnigma:\n";

@@ -78,7 +78,7 @@ uint32_t Enigma::getPermute(uint32_t num)
     uint32_t turn{Keyword::OUT_OF_BOUND};
 
     // PLug the new key word
-    // ans = this->em_pb.getPlug(ans);
+    ans = this->em_pb.getPlug(ans);
 
     // permute the num throu the rotors 1->3
     ans = this->em_r1.permute(ans, false);
@@ -93,6 +93,8 @@ uint32_t Enigma::getPermute(uint32_t num)
     ans = this->em_r2.permute(ans, true);
     ans = this->em_r1.permute(ans, true);
 
+    // PLug the new key word
+    ans = this->em_pb.getPlug(ans);
 
     // update rotors
     turn = this->em_r1.step(1);
