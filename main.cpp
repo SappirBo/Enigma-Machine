@@ -41,11 +41,9 @@ char indexToLetter(int index) {
 
 int main(int argc, char const *argv[])
 {
-    
     Enigma em{1,2,3,0,0,0,10,0};
 
-
-    std::string str = "Hello World";
+    std::string str = "gtcuf nxiao";
     std::string ans = "";
     
     std::cout << "\nEnigma:\n";
