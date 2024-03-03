@@ -7,7 +7,9 @@ This setup allowed for a vast number of possible settings, making the Enigma's e
 ## How it works?
 
 * Rotors
+  Each Rotor have 26 inputs and outputs (for each letter), each input letter is connected to a output letter (for example: A->D, F->Z)  
   * Rotor mechanism
+    
 * Reflector 
 * Plugboard
 * Machine Settings
