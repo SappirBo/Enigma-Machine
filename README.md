@@ -3,6 +3,10 @@ The Enigma machine is a famous encryption device used by the Germans, most notab
 <br/>
 This setup allowed for a vast number of possible settings, making the Enigma's encryption extremely difficult to break.
 
+![image](https://github.com/SappirBo/Enigma-Machine/assets/92790326/ba957b92-9e89-44f0-8ef4-3907951a5eed)
+
+
+
 ## Overview: Enigma Machine Implementation in C++
 
 This project is a modern reinterpretation of the classic Enigma machine, adapted to run on modern computers. Unlike the original Enigma, which encrypted alphabetic characters, our version works by performing permutations on numbers corresponding to letters of the alphabet (0 for 'A', 1 for 'B', ..., 25 for 'Z'). This digital version of the Enigma machine is implemented in C++ and compiled using CMake, making it easily portable and scalable across different platforms.
@@ -52,4 +56,6 @@ Means that there are more then **158 Quintillion** ways to set up the Enigma Mac
 * [How did the Enigma Machine work?](https://www.youtube.com/watch?v=ybkkiGtJmkM&ab_channel=JaredOwen)
 * [(Enigma Machine) - Numberphile](https://www.youtube.com/watch?v=G2_Q9FoD-oQ&t=20s&ab_channel=Numberphile)
 
+
+![image](https://github.com/SappirBo/Enigma-Machine/assets/92790326/ae7ae768-ad9e-4a79-97e5-2127d8f96944)
 
