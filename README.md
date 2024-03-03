@@ -11,7 +11,10 @@ This setup allowed for a vast number of possible settings, making the Enigma's e
     
 * **Reflector:** The reflector has 26 inputs, that connected as 13 pairs. when the reflector get a signal in some input, it reflects it's pair as an output (for example: A->F, F->A)   
 * **Plugboard:** The plugboard takes a letter and might connect it to a other letter (as pair) but it can be stay as is. So the power of the plugboard that it can have at most 13 pairs (325 options) but also it can have 0 pairs - and all the options that are between. (for example: F->A, A->F, D->D, R->R, T->P, P->T,...)
-* Machine Settings
+* **Machine Settings:** The power of the Enigma machine is the large number of configurations it has. first when you start writing words into this machine you need to write down the configuration of the machine, send your message, and then the reciver should have the same configuration in order to decode the message you sent. The machine had some elements that you should concider when configing:
+  * Rotor Order -  you need to choose 3 out of 5 rotors and you need to choose thier order (for example: 1. I,IV,II 2. II,III,I).
+  * Ring setting - choose the start point for each Rotor (for example: 1.A, 2.T, 3.W).
+  * Plugboard connections - configure the plugboard as you want.
 
 ## Combination
 1. Rotors: 5 * 4 * 3 = 60.
