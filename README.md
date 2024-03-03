@@ -2,7 +2,30 @@
 The Enigma machine is a famous encryption device used by the Germans, most notably during World War II, for securing military communications. The machine resembles a typewriter and operates by inputting letters through a keyboard, which are then encrypted based on the configuration of several rotors and a plugboard before being output as a different letter.<br/>
 <br/>
 This setup allowed for a vast number of possible settings, making the Enigma's encryption extremely difficult to break.
-## Overview
+
+## Overview: Enigma Machine Implementation in C++
+
+This project is a modern reinterpretation of the classic Enigma machine, adapted to run on modern computers. Unlike the original Enigma, which encrypted alphabetic characters, our version works by performing permutations on numbers corresponding to letters of the alphabet (0 for 'A', 1 for 'B', ..., 25 for 'Z'). This digital version of the Enigma machine is implemented in C++ and compiled using CMake, making it easily portable and scalable across different platforms.
+
+### Key Features
+
+- **Class-Based Representation:** Each component of the Enigma machine is represented as a class, encapsulating the functionality of rotors, the plugboard, and the reflector into modular, easy-to-understand code blocks.
+  
+- **Main Enigma Class:** The core of the implementation, the `Enigma` class, packages all individual components together, providing a unified interface for encryption and decryption operations.
+  
+- **Number-Based Permutations:** In a unique twist, our implementation uses number-based permutations for encryption, requiring users to convert letters to their corresponding numeric representations before encryption can occur. This approach provides an interesting perspective on the encryption process, emphasizing the mathematical underpinnings of the Enigma machine.
+
+### Getting Started
+
+To get started with this project, you'll need to have CMake and a C++ compiler installed on your system. Clone this repository to your local machine, navigate to the project directory, and follow the build instructions provided below to compile the project:
+
+```bash
+git clone <repository-url>
+cd <repository-name>
+mkdir build && cd build
+cmake ..
+make
+````
 
 ## How it works?
 
