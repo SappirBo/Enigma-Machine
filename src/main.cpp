@@ -2,77 +2,236 @@
 #include <string>
 #include "../include/Enigma.hpp"
 
+namespace strings{
 
+    const std::string RED = "\033[31m";      // Red color
+    const std::string GREEN = "\033[32m";    // Green color
+    const std::string YELLOW = "\033[33m";   // Yellow color
+    const std::string BLUE = "\033[34m";  // Blue color
+    const std::string RESET = "\033[0m";     // Reset to default color
 
-// Function 1: Convert uppercase letter or space to lowercase
+    std::string enigma{YELLOW + "Enigma:" + RESET};
+
+    std::string root_instructions{enigma + "\n     1. Encode/Decode\n     2. Config Setting\n     3. Machine Status\n     4. Clear Screen\n     esc. Exit.\n"};
+    std::string bad_input{enigma + RED +" Bad Input, follow the keywords\n" + RESET};
+    std::string char_or_seq{enigma + "\n     1. One Letter At Time\n     2. Full Sequence\n     3. Read From File\n     4. Back\n"};
+    std::string enter_full_seq{enigma + "\n     1. Enter Seq:\n     2. Back:\n     esc. Enter 'esc' to quit.\n"};
+    std::string enter_one_char{enigma + "     - Add Char (Enter 'esc' to quit.)\n"};
+    std::string not_working_yet{enigma + RED +" Not WORKING YET !!!!!\n" + RESET};
+    std::string please_add_txt_path{enigma +" Please add path to the txt file:\n"};
+    std::string path_entered{enigma +" Path you entered: "};
+}
+
+// Convert uppercase letter or space to lowercase
 char toLowercase(char c) {
     // Check if the character is an uppercase letter
     if (c >= 'A' && c <= 'Z') {
         return c - 'A' + 'a'; // Convert to lowercase
-    } else if (c == ' ') {
-        return c; // Return space unchanged
     } else {
-        // Invalid input, return the input character itself
-        // Or handle the error as needed
         return c;
     }
 }
 
-// Function 2: Convert lowercase letter to its alphabetical index (0-25)
-int letterToIndex(char c) {
+// Convert lowercase letter to its alphabetical index (0-25)
+int32_t letterToIndex(char c) {
     if (c >= 'a' && c <= 'z') {
         return c - 'a'; // Get index (0-25)
     } else {
-        // Invalid input, return -1 or handle the error as needed
+        // Invalid input, return -1
         return -1;
     }
 }
 
 // Function to convert a number (0-25) to its corresponding lowercase letter
-char indexToLetter(int index) {
+char indexToLetter(int32_t index) {
     if (index >= 0 && index <= 25) {
         return 'a' + index; // Convert index to lowercase letter
     } else {
         // Invalid input, return an error character or handle the error as needed
-        return '?'; // Example error character
+        return ' '; 
     }
 }
 
-
-int main(int argc, char const *argv[])
+char useEnigma(Enigma &em, char c)
 {
-    /**
-     * Prepare to operaitng main
-    */
-    Enigma em{1,2,3,0,0,0,10,0};
-
-    std::string str = "nst ryypui loujhkp at j vbkgat ctpuoiglrv cufhjy bttr zb obr dcjweuk.";
-    std::string ans = "";
-    
-    std::cout << "\nEnigma:\n";
-    std::cout << "Input  : " << str << "\n";
-
-    for(int i=0; i < str.size(); ++i)
+    if(c < 65 || c > 122)
     {
-        char c = str.at(i);
-        if(c < 65 || c > 122)
+        return c;
+    }
+    else if(c >90 && c<97)
+    {
+        return c;
+    }
+    else
+    {
+        char c_small = toLowercase(c);
+        int32_t index = letterToIndex(c_small);
+        int32_t a = em.getPermute(index);
+        return indexToLetter(a);
+    }
+
+    return ' ';
+}
+
+void main_loop()
+{
+    // as long as run equals 1 - the program will run
+    int32_t run{1};
+    Enigma em{};
+    bool to_clear{true};
+    
+    while(run)
+    {
+        if(to_clear)
         {
-            ans += c;
+            std::system("clear");
+            to_clear = false;
         }
-        else if(c >90 && c<97)
+
+        char input{' '};
+        std::string input_str{""};
+        std::string output_str{""};
+
+        // First input from the user
+        std::cout << strings::root_instructions;
+        std::cin >> input;
+
+
+        while(input != '1' && input != '2' && input != '3' && input != '4' && input != 27)
         {
-            ans += c;
+            std::cout << strings::bad_input;
+            std::cout << strings::root_instructions;
+            std::cin >> input;
         }
-        else
+
+        // Exit - esc
+        if(input == 27)
         {
-            char c_small = toLowercase(c);
-            int index = letterToIndex(c_small);
-            int32_t a = em.getPermute(index);
-            ans += indexToLetter(a);
+            run = 0;
+        }
+
+        // Encode Decode mechanism
+        if(input == '1')
+        {
+            
+            std::cout << strings::char_or_seq;
+            std::cin >> input;
+
+            if(input == '1')
+            {
+                while(input != 27)
+                {
+                    std::cout << strings::enter_one_char;
+                    std::cin >> input;
+                    if(input != 27)
+                    {
+                        input_str  += input;
+                        output_str += useEnigma(em, input);
+                        std::cout <<"\nEnigma: input  - "<<input_str <<"\n        output - " <<output_str<<"\n";
+                    }
+                }
+                input = '4';
+            }
+            else if (input == '2')
+            {
+                bool back_not_esc {false};
+                bool break_full_seq_loop{false};
+                while(!break_full_seq_loop)
+                {
+                    input == 27;
+                    std::cout << strings::enter_full_seq;
+                    std::cin >> input;
+                    if(input == '1')
+                    {
+                        std::cin >> input;
+                        std::string temp_str{""};
+                        std::getline(std::cin, temp_str);
+
+                        input_str = input + temp_str;
+                        
+                        for(size_t i = 0; i< input_str.size(); ++i)
+                        {
+                            output_str += useEnigma(em, input_str.at(i));
+                        }
+                        std::cout <<"\nEnigma: input  - "<<input_str <<"\n        output - " <<output_str<<"\n";
+
+                        input_str.clear();
+                        output_str.clear();
+                    }
+                    else if(input == '2')
+                    {
+                        break_full_seq_loop = true;
+                        back_not_esc = true;
+                    }
+                    else{
+                        break_full_seq_loop = true;
+                    }
+                }
+                if(back_not_esc)
+                {
+                    input = '4';
+                }
+
+            }
+            else if (input == '3')
+            {
+                std::cout << strings::not_working_yet;
+                std::cout << strings::please_add_txt_path;
+
+                std::cin >> input;
+                std::string temp_str{""};
+                std::getline(std::cin, temp_str);
+
+                input_str = input + temp_str;
+
+                std::cout << strings::path_entered << input_str << std::endl;
+                input = '4';
+                /**
+                 * 
+                 * 1. encode decode as a seq 
+                 * 2. encode decode as data base: origin Enigma(origin) machine_config
+                 * 
+                 * All The Data will be written to enigma.txt
+                */
+                
+
+            }
+            if(input != '1' && input != '2' && input != '3'  && input != '4')
+            {
+                input = '5';
+                //Clean Cin:
+                std::getline(std::cin, input_str);
+                input_str.clear();
+            }
+        }
+
+        // Chage Configuration
+        else if(input == '2')
+        {
+            std::cout << em << std::endl;
+        }
+
+        // Machine Status
+        else if(input == '3')
+        {
+            std::system("clear");
+            std::cout << em << std::endl;
+        }
+
+        // Clear Screen
+        else if(input == '4')
+        {
+            to_clear = true;
         }
     }
 
-    std::cout << "Encoded: " << ans << std::endl;
+}
+
+int32_t main(int32_t argc, char const *argv[])
+{   
+    main_loop();
     
     return 0;
 }
+
+

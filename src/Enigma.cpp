@@ -110,3 +110,24 @@ uint32_t Enigma::getPermute(uint32_t num)
     // return ans -> EM(num)
     return ans;
 }
+
+
+
+std::ostream& operator<< (std::ostream& out, const Enigma& obj)
+{
+    out << "         - - - - - - - - - - - - Rotor 1: - - - - - - - - - - - - " << obj.em_r1  << "\n";
+    out << "         - - - - - - - - - - - - Rotor 2: - - - - - - - - - - - - " << obj.em_r2  << "\n" ;
+    out << "         - - - - - - - - - - - - Rotor 3: - - - - - - - - - - - - " << obj.em_r3  << "\n" ;
+
+    out << "         - - - - - - - - - - - - Reflector: - - - - - - - - - - - \n" << "             ";
+    out << obj.em_rf  <<"\n";
+
+    out << "         - - - - - - - - - - - - Plugboard: - - - - - - - - - - - \n" << "             ";
+    out << obj.em_pb << "\n";
+
+    return out;
+
+}
+
+
+

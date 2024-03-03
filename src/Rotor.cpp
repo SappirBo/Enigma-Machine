@@ -98,7 +98,7 @@ uint32_t Rotor::getIndex(uint32_t input, const std::vector<uint32_t> vec)
 std::ostream& operator<< (std::ostream& out, const Rotor& obj)
 {
     int32_t ring_size = obj._inputRing.size();
-    out << "Rotor" << ":\n" ;
+    out << "" << "\n" ;
     out << "Input ring : {";
     for(int32_t i=0; i < ring_size; ++i){
         out << obj._inputRing.at(i);

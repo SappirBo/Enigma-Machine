@@ -28,6 +28,8 @@ public:
 
     uint32_t getPermute(uint32_t num);
 
+    friend std::ostream& operator<< (std::ostream& out, const Enigma& obj); 
+
 private:
     /**
      * Return True for succsess anf False for fail.

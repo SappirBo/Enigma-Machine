@@ -58,7 +58,7 @@ uint32_t Plugboard::getPlug(uint32_t input)
 std::ostream& operator<< (std::ostream& out, const Plugboard& obj)
 {
     uint32_t ring_size = obj._plugVec.size();
-    out << "Plugboard: {";
+    out << "{";
     for(uint32_t i=0; i < ring_size; ++i){
         out << obj._plugVec.at(i);
         if(i != ring_size-1)
