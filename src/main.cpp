@@ -1,5 +1,9 @@
 #include <iostream>
 #include <string>
+#include <ctime>
+#include <sstream>
+#include <fstream>
+#include <filesystem>
 #include "../include/Enigma.hpp"
 
 namespace strings{
@@ -182,10 +186,9 @@ void main_loop()
                 std::string temp_str{""};
                 std::getline(std::cin, temp_str);
 
-                input_str = input + temp_str;
+                std::string path_to_data{input + temp_str};
 
-                std::cout << strings::path_entered << input_str << std::endl;
-                input = '4';
+                std::cout << strings::path_entered << path_to_data << std::endl;
                 /**
                  * 
                  * 1. encode decode as a seq 
@@ -193,6 +196,53 @@ void main_loop()
                  * 
                  * All The Data will be written to enigma.txt
                 */
+
+                std::ifstream inputFile(path_to_data);
+    
+                if (!inputFile.is_open()) {
+                    std::cerr << "Could not open the input file." << std::endl;
+                    break;
+                }
+
+                // Extracting filename from path
+                std::filesystem::path p{path_to_data};
+                std::string filename = p.stem().string();
+
+                // Getting the current date
+                auto t = std::time(nullptr);
+                auto tm = *std::localtime(&t);
+                std::ostringstream oss;
+                oss << std::put_time(&tm, "%Y-%m-%d");
+                std::string currentDate = oss.str();
+
+                std::filesystem::path outputPath = "/home/sappirb/code/Enigma-Machine/output";
+                if (!std::filesystem::exists(outputPath)) {
+                    std::filesystem::create_directories(outputPath);
+                }
+
+                // Construct the full path for the output file
+                outputPath /= filename + "_" + currentDate + ".txt";
+
+                std::ofstream outputFile(outputPath);
+                if (!outputFile.is_open()) {
+                    std::cerr << "Could not open the output file." << std::endl;
+                    inputFile.close();
+                    break;
+                }
+
+                // Processing each word
+                std::string word;
+                while (inputFile >> word) {
+                    for(size_t i=0; i<word.size(); ++i)
+                    {
+                        char transformed_letter = useEnigma(em, word.at(i));
+                        outputFile << transformed_letter ;
+                    }
+                    outputFile << " ";
+                }
+
+                inputFile.close();
+                outputFile.close();
                 
 
             }
