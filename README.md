@@ -9,7 +9,7 @@ This setup allowed for a vast number of possible settings, making the Enigma's e
 * **Rotors:** Each Rotor have 26 inputs and outputs (for each letter), each input letter is connected to a output letter (for example: A->D, F->Z). 
   * **Rotor mechanism:** Each time key is pressed at least one rotor will turn (at most three), that means that for two presses on the same letter might extract two  different letters (!). Rotor 1 will move in each press and when it compelete a full spin - Rotor 2 will do one turn (the same for rotors 2 and 3). So we have Rotor 1 as the fast rotor, Rotor 2 as mid rotor and Rotor 3 as slow rotor. 
     
-* Reflector 
+* **Reflector:** The reflector has 26 inputs, that connected as 13 pairs. when the reflector get a signal in some input, it reflects it's pair as an output (for example: A->F, F->A)   
 * Plugboard
 * Machine Settings
 
