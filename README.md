@@ -51,6 +51,8 @@ make
 
 Means that there are more then **158 Quintillion** ways to set up the Enigma Machine!
 
+## US
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/IrHz_kuoH04/0.jpg)](http://www.youtube.com/watch?v=IrHz_kuoH04)
 ## Sources
 * [Enigma Machine](https://en.wikipedia.org/wiki/Enigma_machine)
 * [How did the Enigma Machine work?](https://www.youtube.com/watch?v=ybkkiGtJmkM&ab_channel=JaredOwen)
