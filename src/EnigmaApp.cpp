@@ -73,20 +73,28 @@ std::string EnigmaApp::getEnigmaSig(AppLocations location)
     {
     case AppLocations::Encode:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode]" + Colors::RESET;
+        break;
     case AppLocations::EncodeBySequence:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode By Sequence]" + Colors::RESET;
+        break;
     case AppLocations::EncodeBySingles:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode Single Chars]" + Colors::RESET;
+        break;
     case AppLocations::EncodeFromFile:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode From File]" + Colors::RESET;
+        break;
     case AppLocations::MachineStat:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Machine Configuration Status]" + Colors::RESET;
+        break;
     case AppLocations::BadInput:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Invalid Input!]" + Colors::RESET;
+        break;
     case AppLocations::Menu:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Menu]" + Colors::RESET;
+        break;
     default:
         enigma = Colors::YELLOW + _time + " EnigmaApp]" + Colors::RESET;
+        break;
     }
 
     return enigma;
@@ -225,10 +233,13 @@ void EnigmaApp::encode()
     {
     case EncodeOption::Single:
         encodeSingle();
+        break;
     case EncodeOption::Sequence:
         encodeSequence();
+        break;
     case EncodeOption::ReadFromFile:
         encodeFromFile();
+        break;
     case EncodeOption::Exit:
         break;
     default:
