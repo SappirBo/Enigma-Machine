@@ -351,8 +351,10 @@ void EnigmaApp::encodeFromFile()
     switch (from_file_input)
     {
     case EncodeFromFileOptions::EncodeAsSeq:
-        encodeFromFileAsSez(path_to_data);
+        encodeFromFileAsSeq(path_to_data);
+        break;
     case EncodeFromFileOptions::EncodeAsDataSet:
+        encodeFromFileAsDataset(path_to_data);
         break;
     default:
         break;
@@ -360,7 +362,7 @@ void EnigmaApp::encodeFromFile()
 
 }
 
-void EnigmaApp::encodeFromFileAsSez(std::string path_to_file)
+void EnigmaApp::encodeFromFileAsSeq(std::string path_to_file)
 {
     std::ifstream inputFile(path_to_file);
     
@@ -370,7 +372,6 @@ void EnigmaApp::encodeFromFileAsSez(std::string path_to_file)
         return;
     }
     
-
     // Extracting filename from path
     std::filesystem::path p{path_to_file};
     std::string filename = p.stem().string();
@@ -382,11 +383,9 @@ void EnigmaApp::encodeFromFileAsSez(std::string path_to_file)
     oss << std::put_time(&tm, "%Y-%m-%d");
     std::string currentDate = oss.str();
 
-    // std::filesystem::path outputPath = "/home/sappirb/code/Enigma-Machine/output";
-
     // Using environment variable to make path dynamic
     std::string homeDirectory = std::getenv("HOME"); // Get the home directory
-    std::filesystem::path outputPath = homeDirectory + "/enigma_output"; // Append "/output" to the home directory
+    std::filesystem::path outputPath = homeDirectory + "/enigma_output_seq"; // Append "/output" to the home directory
 
 
     if (!std::filesystem::exists(outputPath)) 
@@ -421,15 +420,74 @@ void EnigmaApp::encodeFromFileAsSez(std::string path_to_file)
     outputFile.close();
 }
 
-
+void EnigmaApp::encodeFromFileAsDataset(std::string path_to_file)
+{
+    std::ifstream inputFile(path_to_file);
     
+    if (!inputFile.is_open()) 
+    {
+        std::cerr << "Could not open the input file." << std::endl;
+        return;
+    }
+    
+    // Extracting filename from path
+    std::filesystem::path p{path_to_file};
+    std::string filename = p.stem().string();
+
+    // Getting the current date
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%d");
+    std::string currentDate = oss.str();
+
+    // Using environment variable to make path dynamic
+    std::string homeDirectory = std::getenv("HOME"); // Get the home directory
+    std::filesystem::path outputPath = homeDirectory + "/enigma_output_dataset_collection"; 
+
+
+    if (!std::filesystem::exists(outputPath)) 
+    {
+        std::filesystem::create_directories(outputPath);
+    }
+
+    // Construct the full path for the output file
+    outputPath /= filename + "_" + currentDate + ".txt";
+
+    std::ofstream outputFile(outputPath);
+    if (!outputFile.is_open())
+    {
+        std::cerr << "Could not open the output file." << std::endl;
+        inputFile.close();
+        return;
+    }
+    
+
+    // Processing each word
+    std::string word;
+    while (inputFile >> word) {
+        outputFile << word;
+        outputFile << " ";
+        for(size_t i=0; i<word.size(); ++i)
+        {
+            char transformed_letter = useEnigma(word.at(i));
+            outputFile << transformed_letter ;
+        }
+        outputFile << "\n";
+    }
+
+    inputFile.close();
+    outputFile.close();
+
+}
 
 void EnigmaApp::showMachineStatus()
 {
     std::cout <<getEnigmaSig(AppLocations::MachineStat) << "\n" << _em << std::endl;
 }
 
-void EnigmaApp::run() {
+void EnigmaApp::run()
+{
     while (true) {
         if (to_clear) {
             clearScreen();
@@ -460,4 +518,5 @@ void EnigmaApp::run() {
         }
     }
 }
+
 

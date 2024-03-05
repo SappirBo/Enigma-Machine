@@ -73,7 +73,9 @@ private:
 
     void encodeFromFile();
 
-    void encodeFromFileAsSez(std::string path_to_file);
+    void encodeFromFileAsSeq(std::string path_to_file);
+
+    void encodeFromFileAsDataset(std::string path_to_file);
 
     /* Convert uppercase letter or space to lowercase */
     char toLowercase(char c);
