@@ -6,11 +6,15 @@
 #include "Colors.hpp"
 #include <ctime>
 #include <iostream>
+#include <sstream>
+#include <fstream>
+#include <filesystem>
 
 /**
  * Safer Enum class to habdle input states.
 */
-enum class MenuOption {
+enum class MenuOption 
+{
     EncodeDecode = '1',
     ConfigSetting = '2',
     MachineStatus = '3',
@@ -20,15 +24,16 @@ enum class MenuOption {
 };
 
 /**Enum Class to hold locations in the app (for the printing)*/
-enum class AppLocations{
+enum class AppLocations
+{
     Menu = 1,
     Encode = 2,
     EncodeBySequence = 3,
     EncodeBySingles = 4,
-    MachineStat = 5,
-    BadInput = 6
+    EncodeFromFile = 5,
+    MachineStat = 6,
+    BadInput = 7
 };
-
 
 enum class EncodeOption{
     Single = 1,
@@ -37,6 +42,17 @@ enum class EncodeOption{
     Exit = 4,
     InvalidInput = 0
 };
+
+enum class EncodeFromFileOptions
+{
+    EncodeAsSeq = 1,
+    EncodeAsDataSet = 2,
+    Exit = 3,
+    InvalidInput = 4 
+
+};
+
+
 
 /**
  * Encapsulate the application state and behavior in class - EnigmaApp. 
@@ -54,6 +70,10 @@ private:
     void encodeSingle();
 
     void encodeSequence();
+
+    void encodeFromFile();
+
+    void encodeFromFileAsSez(std::string path_to_file);
 
     /* Convert uppercase letter or space to lowercase */
     char toLowercase(char c);
@@ -81,6 +101,8 @@ private:
 
     /** Menu: Taking input (char) from user, and returns the prooper MenuOption*/
     EncodeOption getEncodeUserInput();
+
+    EncodeFromFileOptions getEncodeFromFileIserInput();
     
     void handleInvalidInput();
 

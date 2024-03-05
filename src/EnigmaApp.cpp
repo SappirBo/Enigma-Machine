@@ -73,25 +73,20 @@ std::string EnigmaApp::getEnigmaSig(AppLocations location)
     {
     case AppLocations::Encode:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode]" + Colors::RESET;
-        return enigma;
     case AppLocations::EncodeBySequence:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode By Sequence]" + Colors::RESET;
-        return enigma;
     case AppLocations::EncodeBySingles:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Encode Single Chars]" + Colors::RESET;
-        return enigma;
+    case AppLocations::EncodeFromFile:
+        enigma = Colors::YELLOW + _time + " EnigmaApp - Encode From File]" + Colors::RESET;
     case AppLocations::MachineStat:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Machine Configuration Status]" + Colors::RESET;
-        return enigma;
     case AppLocations::BadInput:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Invalid Input!]" + Colors::RESET;
-        return enigma;
     case AppLocations::Menu:
         enigma = Colors::YELLOW + _time + " EnigmaApp - Menu]" + Colors::RESET;
-        return enigma;
     default:
         enigma = Colors::YELLOW + _time + " EnigmaApp]" + Colors::RESET;
-        return enigma;
     }
 
     return enigma;
@@ -183,6 +178,36 @@ EncodeOption EnigmaApp::getEncodeUserInput()
 
 }
 
+EncodeFromFileOptions EnigmaApp::getEncodeFromFileIserInput()
+{
+    char user_input{'0'};
+    std::cin >> user_input;
+
+    if(user_input != '1' && user_input != '2' &&  user_input != 27)
+    {
+        std::string bad_input{""};
+        bad_input += getEnigmaSig(AppLocations::BadInput);
+        bad_input += "\n";
+        bad_input += Colors::RED  + " Invalid Input, Please follow the keywords and the instractions" +Colors::RESET;
+        std::cout << bad_input << std::endl;
+        return EncodeFromFileOptions::InvalidInput;
+    }
+
+    switch (user_input)
+    {
+    case '1':
+        return EncodeFromFileOptions::EncodeAsSeq;
+    case '2':
+        return EncodeFromFileOptions::EncodeAsDataSet;
+    case 27:
+        return EncodeFromFileOptions::Exit;    
+    default:
+        return EncodeFromFileOptions::InvalidInput;
+
+    }
+
+}
+
 void EnigmaApp::encode()
 {
     std::string sequence_or_singleChars{""};
@@ -203,7 +228,7 @@ void EnigmaApp::encode()
     case EncodeOption::Sequence:
         encodeSequence();
     case EncodeOption::ReadFromFile:
-        break;
+        encodeFromFile();
     case EncodeOption::Exit:
         break;
     default:
@@ -287,6 +312,106 @@ void EnigmaApp::encodeSequence()
     }
 
 }
+
+void EnigmaApp::encodeFromFile()
+{
+    char user_input{'0'};
+    std::string header{""};
+    header += getEnigmaSig(AppLocations::EncodeFromFile);
+    
+    std::cout << header << std::endl;
+    std::cout << " - Please add path to the txt file:\n";
+
+    std::cin >> user_input;
+    std::string temp_str{""};
+    std::getline(std::cin, temp_str);
+
+    std::string path_to_data{user_input + temp_str};
+    
+
+    std::cout << "Path Entered:" << path_to_data << std::endl;
+
+    std::cout << "      1. Encode data as sequence\n";
+    std::cout << "      2. Encode as data set format: originTxt Enigma(originTxt) machine_config\n";
+    std::cout << "      esc. Exit\n";
+
+    EncodeFromFileOptions from_file_input = getEncodeFromFileIserInput();
+
+    switch (from_file_input)
+    {
+    case EncodeFromFileOptions::EncodeAsSeq:
+        encodeFromFileAsSez(path_to_data);
+    case EncodeFromFileOptions::EncodeAsDataSet:
+        break;
+    default:
+        break;
+    }
+
+}
+
+void EnigmaApp::encodeFromFileAsSez(std::string path_to_file)
+{
+    std::ifstream inputFile(path_to_file);
+    
+    if (!inputFile.is_open()) 
+    {
+        std::cerr << "Could not open the input file." << std::endl;
+        return;
+    }
+    
+
+    // Extracting filename from path
+    std::filesystem::path p{path_to_file};
+    std::string filename = p.stem().string();
+
+    // Getting the current date
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%d");
+    std::string currentDate = oss.str();
+
+    // std::filesystem::path outputPath = "/home/sappirb/code/Enigma-Machine/output";
+
+    // Using environment variable to make path dynamic
+    std::string homeDirectory = std::getenv("HOME"); // Get the home directory
+    std::filesystem::path outputPath = homeDirectory + "/enigma_output"; // Append "/output" to the home directory
+
+
+    if (!std::filesystem::exists(outputPath)) 
+    {
+        std::filesystem::create_directories(outputPath);
+    }
+
+    // Construct the full path for the output file
+    outputPath /= filename + "_" + currentDate + ".txt";
+
+    std::ofstream outputFile(outputPath);
+    if (!outputFile.is_open())
+    {
+        std::cerr << "Could not open the output file." << std::endl;
+        inputFile.close();
+        return;
+    }
+    
+
+    // Processing each word
+    std::string word;
+    while (inputFile >> word) {
+        for(size_t i=0; i<word.size(); ++i)
+        {
+            char transformed_letter = useEnigma(word.at(i));
+            outputFile << transformed_letter ;
+        }
+        outputFile << " ";
+    }
+
+    inputFile.close();
+    outputFile.close();
+}
+
+
+    
 
 void EnigmaApp::showMachineStatus()
 {
