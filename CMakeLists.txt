@@ -18,8 +18,6 @@ add_executable(${PROJECT_NAME}
     src/Reflector.cpp
     src/Plugboard.cpp
     src/Enigma.cpp
-    # Add any additional .cpp files here
+    src/EnigmaApp.cpp
 )
 
-# If you have any libraries to link, use target_link_libraries here
-# target_link_libraries(${PROJECT_NAME} library_name)

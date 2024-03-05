@@ -5,6 +5,7 @@
 #include <fstream>
 #include <filesystem>
 #include "../include/Enigma.hpp"
+#include "../include/EnigmaApp.hpp"
 
 namespace strings{
 
@@ -279,7 +280,9 @@ void main_loop()
 
 int32_t main(int32_t argc, char const *argv[])
 {   
-    main_loop();
+    EnigmaApp enigma_app;
+
+    enigma_app.run();
     
     return 0;
 }
