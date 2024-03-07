@@ -29,6 +29,7 @@ cd <repository-name>
 mkdir build && cd build
 cmake ..
 make
+./Enigma
 ````
 
 ## How it works?
