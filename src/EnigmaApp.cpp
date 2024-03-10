@@ -376,26 +376,8 @@ void EnigmaApp::encodeFromFileAsSeq(std::string path_to_file)
     std::filesystem::path p{path_to_file};
     std::string filename = p.stem().string();
 
-    // Getting the current date
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d");
-    std::string currentDate = oss.str();
-
-    // Using environment variable to make path dynamic
-    std::string homeDirectory = std::getenv("HOME"); // Get the home directory
-    std::filesystem::path outputPath = homeDirectory + "/enigma_output_seq"; // Append "/output" to the home directory
-
-
-    if (!std::filesystem::exists(outputPath)) 
-    {
-        std::filesystem::create_directories(outputPath);
-    }
-
-    // Construct the full path for the output file
-    outputPath /= filename + "_" + currentDate + ".txt";
-
+    std::filesystem::path outputPath(mannageOutoutFile(filename, "/enigma_output_seq"));
+    
     std::ofstream outputFile(outputPath);
     if (!outputFile.is_open())
     {
@@ -418,6 +400,52 @@ void EnigmaApp::encodeFromFileAsSeq(std::string path_to_file)
 
     inputFile.close();
     outputFile.close();
+}
+
+std::string EnigmaApp::validateWord(std::string word)
+{
+    std::string clean_word{""};
+    for(size_t i{0}; i < word.size(); ++i)
+    {
+        if(word.at(i) >= 'a' && word.at(i) <= 'z')
+        {
+            clean_word += word.at(i);
+        }
+        else if(word.at(i) >= 'A' && word.at(i) <= 'Z')
+        {
+            char temp = word.at(i) -'A';
+            temp += 'a';
+            clean_word += temp;
+        }
+
+    }
+
+    return clean_word;
+}
+
+std::filesystem::path EnigmaApp::mannageOutoutFile(std::string filename, std::string output_file_name)
+{
+    // Getting the current date
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%d");
+    std::string currentDate = oss.str();
+
+    // Using environment variable to make path dynamic
+    std::string homeDirectory = std::getenv("HOME"); // Get the home directory
+    std::filesystem::path outputPath = homeDirectory + output_file_name; 
+
+
+    if (!std::filesystem::exists(outputPath)) 
+    {
+        std::filesystem::create_directories(outputPath);
+    }
+
+    // Construct the full path for the output file
+    outputPath /= filename + "_" + currentDate + ".txt";
+
+    return outputPath;
 }
 
 void EnigmaApp::encodeFromFileAsDataset(std::string path_to_file)
@@ -434,25 +462,7 @@ void EnigmaApp::encodeFromFileAsDataset(std::string path_to_file)
     std::filesystem::path p{path_to_file};
     std::string filename = p.stem().string();
 
-    // Getting the current date
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d");
-    std::string currentDate = oss.str();
-
-    // Using environment variable to make path dynamic
-    std::string homeDirectory = std::getenv("HOME"); // Get the home directory
-    std::filesystem::path outputPath = homeDirectory + "/enigma_output_dataset_collection"; 
-
-
-    if (!std::filesystem::exists(outputPath)) 
-    {
-        std::filesystem::create_directories(outputPath);
-    }
-
-    // Construct the full path for the output file
-    outputPath /= filename + "_" + currentDate + ".txt";
+    std::filesystem::path outputPath(mannageOutoutFile(filename, "/enigma_output_dataset_collection"));
 
     std::ofstream outputFile(outputPath);
     if (!outputFile.is_open())
@@ -465,15 +475,18 @@ void EnigmaApp::encodeFromFileAsDataset(std::string path_to_file)
 
     // Processing each word
     std::string word;
+    std::string valid_word;
     while (inputFile >> word) {
-        outputFile << word;
+        valid_word = validateWord(word);
+        outputFile << valid_word;
         outputFile << " ";
-        for(size_t i=0; i<word.size(); ++i)
+        for(size_t i=0; i<valid_word.size(); ++i)
         {
-            char transformed_letter = useEnigma(word.at(i));
+            char transformed_letter = useEnigma(valid_word.at(i));
             outputFile << transformed_letter ;
         }
         outputFile << "\n";
+        _em.reConfigBaseEnigma();
     }
 
     inputFile.close();
@@ -484,6 +497,17 @@ void EnigmaApp::encodeFromFileAsDataset(std::string path_to_file)
 void EnigmaApp::showMachineStatus()
 {
     std::cout <<getEnigmaSig(AppLocations::MachineStat) << "\n" << _em << std::endl;
+}
+
+void EnigmaApp::changeConfiguration()
+{
+    /**
+     * 1. Reset to defualt Configuration.
+     * 2. Choose configuration (0-100).
+     * 3. Create Custom Cunfiguration.
+     * 4. Save Current Configuration.
+     * 5. Exit.
+    */
 }
 
 void EnigmaApp::run()
@@ -502,7 +526,7 @@ void EnigmaApp::run()
                 encode();
                 break;
             case MenuOption::ConfigSetting:
-                // changeConfiguration();
+                changeConfiguration();
                 break;
             case MenuOption::MachineStatus:
                 showMachineStatus();

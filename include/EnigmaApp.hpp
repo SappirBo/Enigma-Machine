@@ -77,6 +77,12 @@ private:
 
     void encodeFromFileAsDataset(std::string path_to_file);
 
+    /* check if the outputfile exists - then create is if needed, return path to the file*/
+    std::filesystem::path mannageOutoutFile(std::string filename,  std::string output_file_name);
+
+    /* Validate word for DataSet: only a-z*/
+    std::string validateWord(std::string word);
+
     /* Convert uppercase letter or space to lowercase */
     char toLowercase(char c);
 
@@ -112,6 +118,7 @@ private:
     std::string getEnigmaSig(AppLocations location);
     
     void handleInput();
+    
     void changeConfiguration();
 
 public:

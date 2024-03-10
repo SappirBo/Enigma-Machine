@@ -1,6 +1,19 @@
 #include "../include/Enigma.hpp"
 
-Enigma::Enigma(){};
+
+Enigma::Enigma()
+{
+    this->setRotor(1, 1, 0);
+    this->setRotor(2, 2, 0);
+    this->setRotor(3, 3, 0);
+
+    // stting up plugboard:
+    this->setPlugboard(0);
+
+    // setting up reflector:
+    this->setRef(0);
+
+};     
 Enigma::~Enigma(){};
 
 Enigma::Enigma(uint32_t rotor1, uint32_t rotor2, uint32_t rotor3,
@@ -111,18 +124,29 @@ uint32_t Enigma::getPermute(uint32_t num)
     return ans;
 }
 
+void Enigma::reConfigBaseEnigma()
+{
+    this->setRotor(1, 1, 0);
+    this->setRotor(2, 2, 0);
+    this->setRotor(3, 3, 0);
 
+    // stting up plugboard:
+    this->setPlugboard(0);
+
+    // setting up reflector:
+    this->setRef(0);
+}
 
 std::ostream& operator<< (std::ostream& out, const Enigma& obj)
 {
-    out << "         - - - - - - - - - - - - Rotor 1: - - - - - - - - - - - - " << obj.em_r1  << "\n";
-    out << "         - - - - - - - - - - - - Rotor 2: - - - - - - - - - - - - " << obj.em_r2  << "\n" ;
-    out << "         - - - - - - - - - - - - Rotor 3: - - - - - - - - - - - - " << obj.em_r3  << "\n" ;
+    out << " - - - - - - - - - - - - - - - - Rotor 1: - - - - - - - - - - - - - - - - " << obj.em_r1  << "\n";
+    out << " - - - - - - - - - - - - - - - - Rotor 2: - - - - - - - - - - - - - - - - " << obj.em_r2  << "\n" ;
+    out << " - - - - - - - - - - - - - - - - Rotor 3: - - - - - - - - - - - - - - - - " << obj.em_r3  << "\n" ;
 
-    out << "         - - - - - - - - - - - - Reflector: - - - - - - - - - - - \n" << "             ";
+    out << " - - - - - - - - - - - - - - - - Reflector: - - - - - - - - - - - - - - - \n" << "Reflector  : ";
     out << obj.em_rf  <<"\n";
 
-    out << "         - - - - - - - - - - - - Plugboard: - - - - - - - - - - - \n" << "             ";
+    out << " - - - - - - - - - - - - - - - - Plugboard: - - - - - - - - - - - - - - - \n" << "Plugboard  : ";
     out << obj.em_pb << "\n";
 
     return out;
